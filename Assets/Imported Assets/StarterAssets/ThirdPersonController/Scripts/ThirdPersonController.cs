@@ -1,6 +1,8 @@
 ﻿ using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
+using System.Collections;
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using Cinemachine;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -16,7 +18,7 @@ namespace StarterAssets
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f;
+        public float MoveSpeed = 10.0f;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
@@ -98,6 +100,10 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        //stealth walk
+        private int _animIDStealthWalk;
+        private float stealthSpeed;
+
         [Header("Components"),Space(10)]
 #if ENABLE_INPUT_SYSTEM 
       [SerializeField]  private PlayerInput _playerInput;
@@ -107,9 +113,13 @@ namespace StarterAssets
         [SerializeField] private StarterAssetsInputs _input;
        [SerializeField] private GameObject _mainCamera;
 
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+
+        //stealth walk
+        private bool _stealthWalking = false;
 
         private bool IsCurrentDeviceMouse
         {
@@ -141,6 +151,8 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            stealthSpeed = MoveSpeed * 0.75f;
         }
 
         private void Update()
@@ -150,6 +162,9 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            StealthWalk();
+
+
         }
 
         private void LateUpdate()
@@ -164,6 +179,8 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+
+            _animIDStealthWalk = Animator.StringToHash("Stealth");
         }
 
         private void GroundedCheck()
@@ -202,11 +219,46 @@ namespace StarterAssets
                 _cinemachineTargetYaw, 0.0f);
         }
 
-        private void Move()
+        private void StealthWalk()
+        {
+            // Toggle stealth walk
+            if (_input.stealthWalk)
+            {
+                _stealthWalking = true;
+
+                // Update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDStealthWalk, _stealthWalking);
+                    virtualCamera.m_Lens.FieldOfView = 30;
+                }
+            }
+            else
+            {
+                _stealthWalking = false;
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDStealthWalk, _stealthWalking);
+                    virtualCamera.m_Lens.FieldOfView = 40;
+                }
+            }
+        }
+        
+    private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-
+            float storedTargetSpeed = targetSpeed;
+            
+            if (_stealthWalking)
+            {
+                targetSpeed = stealthSpeed;
+               
+            }
+            else
+            {
+                targetSpeed = storedTargetSpeed;
+            }
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
