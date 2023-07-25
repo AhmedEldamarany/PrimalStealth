@@ -22,7 +22,10 @@ namespace StarterAssets
         {
             starterAssetsInputs.JumpInput(virtualJumpState);
         }
-
+        public void VirtualStealthInput(bool virtualStealthState)
+        {
+            starterAssetsInputs.StealthInput(virtualStealthState);
+        }
         public void VirtualSprintInput(bool virtualSprintState)
         {
             starterAssetsInputs.SprintInput(virtualSprintState);

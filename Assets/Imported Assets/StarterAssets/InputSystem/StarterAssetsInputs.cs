@@ -12,6 +12,7 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool stealthWalk;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -26,6 +27,11 @@ namespace StarterAssets
 			MoveInput(value.Get<Vector2>());
 		}
 
+		//stealth  walk
+		public void OnStealth(InputValue value)
+		{
+			StealthInput(value.isPressed);
+		}
 		public void OnLook(InputValue value)
 		{
 			if(cursorInputForLook)
@@ -49,8 +55,12 @@ namespace StarterAssets
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
-		} 
-
+		}
+		//stealth  walk
+		public void StealthInput(bool newStealthState)
+		{
+			stealthWalk = newStealthState;
+		}
 		public void LookInput(Vector2 newLookDirection)
 		{
 			look = newLookDirection;
