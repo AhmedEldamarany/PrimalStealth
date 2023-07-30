@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool stealthWalk;
+		public bool attack;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -31,6 +32,10 @@ namespace StarterAssets
 		public void OnStealth(InputValue value)
 		{
 			StealthInput(value.isPressed);
+		}
+		public void OnAttack(InputValue value)
+		{
+			AttackInput(value.isPressed);
 		}
 		public void OnLook(InputValue value)
 		{
@@ -60,6 +65,10 @@ namespace StarterAssets
 		public void StealthInput(bool newStealthState)
 		{
 			stealthWalk = newStealthState;
+		}
+		public void AttackInput(bool newStealthState)
+		{
+			attack = newStealthState;
 		}
 		public void LookInput(Vector2 newLookDirection)
 		{

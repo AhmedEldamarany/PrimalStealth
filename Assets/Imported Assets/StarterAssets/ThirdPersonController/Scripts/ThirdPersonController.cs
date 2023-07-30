@@ -103,6 +103,11 @@ namespace StarterAssets
         //stealth walk
         private int _animIDStealthWalk;
         private float stealthSpeed;
+        private int stealthLayerIndex;
+
+        //player attack
+        private int _animIDAttack;
+        private bool isAttack = false;
 
         [Header("Components"),Space(10)]
 #if ENABLE_INPUT_SYSTEM 
@@ -153,6 +158,7 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
 
             stealthSpeed = MoveSpeed * 0.75f;
+            stealthLayerIndex = _animator.GetLayerIndex("StealthLayer");
         }
 
         private void Update()
@@ -163,7 +169,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             StealthWalk();
-
+            PlayerAttack();
 
         }
 
@@ -181,6 +187,7 @@ namespace StarterAssets
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
             _animIDStealthWalk = Animator.StringToHash("Stealth");
+            _animIDAttack = Animator.StringToHash("Attack");
         }
 
         private void GroundedCheck()
@@ -429,6 +436,28 @@ namespace StarterAssets
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            }
+        }
+
+        private void PlayerAttack()
+        {
+            if (_input.attack)
+            {
+                isAttack = true;
+
+                // Update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDAttack, isAttack);
+                }
+            }
+            else
+            {
+                isAttack = false;
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDAttack, isAttack);
+                }
             }
         }
     }
