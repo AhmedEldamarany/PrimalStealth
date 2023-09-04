@@ -21,11 +21,11 @@ using UnityEngine.UI;
     }
     private void Update()
     {
-        if (currentHealth < maxHealth)
-        {
-            currentHealth += Mathf.CeilToInt(recoveryRate * Time.deltaTime);
-            currentHealth = Mathf.Min(currentHealth, maxHealth); // Clamp health to the maximum value.
-        }
+        //if (currentHealth < maxHealth)
+        //{
+        //    currentHealth += Mathf.CeilToInt(recoveryRate * Time.deltaTime);
+        //    currentHealth = Mathf.Min(currentHealth, maxHealth); // Clamp health to the maximum value.
+        //}
         //UIManager.Instance.wolfHealthText.text = currentHealth.ToString();
 
     }

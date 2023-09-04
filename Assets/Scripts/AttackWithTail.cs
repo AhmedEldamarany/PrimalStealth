@@ -8,7 +8,7 @@ public class AttackWithTail : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         HealthManager otherHealth = other.GetComponent<HealthManager>();
-        if (otherHealth!=null && other.CompareTag("Wolf"))
+        if (otherHealth != null && other.CompareTag("Wolf"))
         {
             otherHealth.TakeDamage(playerData.DamageAmount);
             Debug.Log(playerData.DamageAmount);

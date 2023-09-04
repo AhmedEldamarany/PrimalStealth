@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -14,6 +15,8 @@ namespace StarterAssets
 		public bool sprint;
 		public bool stealthWalk;
 		public bool attack;
+		public bool pickUp;
+		public bool drop;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -55,9 +58,27 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 #endif
+		public void OnPickUp(InputValue value)
+		{
+			PickUpInput(value.isPressed);
+		}
 
+        public void PickUpInput(bool newPickUpState)
+        {
+			pickUp = newPickUpState;
+        }
 
-		public void MoveInput(Vector2 newMoveDirection)
+        public void OnDrop(InputValue value)
+		{
+			DropInput(value.isPressed);
+		}
+
+        public void DropInput(bool newDropState)
+        {
+			drop = newDropState;
+        }
+
+        public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
 		}
