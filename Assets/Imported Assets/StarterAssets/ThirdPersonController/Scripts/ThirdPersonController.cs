@@ -16,6 +16,10 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        private void OnAnimatorIK(int layerIndex)
+        {
+            
+        }
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 10.0f;
