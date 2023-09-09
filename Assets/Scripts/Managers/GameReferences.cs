@@ -9,6 +9,8 @@ public class GameReferences : Singleton<GameReferences>
     [SerializeField] private GameObject player;
     [Header("Player mouth position Ref")]
     [SerializeField] private Transform playerMouth;
+    [SerializeField] private List<GameObject> food = new List<GameObject>();
+    [SerializeField] private List<GameObject> water = new List<GameObject>();
 
     private void Awake()
     {
@@ -21,6 +23,14 @@ public class GameReferences : Singleton<GameReferences>
     public Transform GetPlayerMouth()
     {
         return playerMouth;
+    }
+    public List<GameObject> GetFoodList()
+    {
+        return food;
+    }
+    public List<GameObject> GetWaterPosList()
+    {
+        return water;
     }
 
 }
