@@ -30,6 +30,14 @@ namespace StarterAssets
         {
             starterAssetsInputs.AttackInput(virtualAttackState);
         }
+        public void VirtualPickUpInput(bool virtualPickUpState)
+        {
+            starterAssetsInputs.PickUpInput(virtualPickUpState);
+        }
+        public void VirtualDropInput(bool virtualDropState)
+        {
+            starterAssetsInputs.DropInput(virtualDropState);
+        }
         public void VirtualSprintInput(bool virtualSprintState)
         {
             starterAssetsInputs.SprintInput(virtualSprintState);

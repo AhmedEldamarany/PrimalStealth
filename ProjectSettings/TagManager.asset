@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CinemachineTarget
   - Wolf
+  - ItemPickup
+  - Food
   layers:
   - Default
   - TransparentFX
