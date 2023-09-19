@@ -19,34 +19,38 @@ public class IPickable : MonoBehaviour
         playerMouth = GameReferences.Instance.GetPlayerMouth().transform;
         togglePickUpBtnTxt = UIManager.Instance.PickUpToggleBtnTxt;
     }
-    private void Update()
-    {
-        if (_input.pickUp)
-        {
-            isPicked = !isPicked;
-            if (isPicked)
-            {
-                PickUp();
-            }
-            else
-            {
-                Drop();
-            }
-        }
-    }
+   
     private void PickUp()
     {
-        togglePickUpBtnTxt.text = "PickUp";
+        togglePickUpBtnTxt.text = $"Drop";
         this.transform.parent = playerMouth;
         transform.localPosition = Vector3.zero;
+        isPicked = true;
     }
     private void Drop()
     {
-        togglePickUpBtnTxt.text = "Drop";
+        togglePickUpBtnTxt.text = $"Pickup";
         Vector3 playerPos = player.transform.position;
         playerPos.z += 5f;
         playerPos.y -= .5f;
         this.transform.SetParent(null);
         this.transform.localPosition = playerPos;
+        isPicked=false;
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (_input.pickUp)
+        {
+            _input.pickUp = false;
+            //isPicked = !isPicked;
+            if (isPicked)
+            {
+                Drop();
+            }
+            else
+            {
+                PickUp();
+            }
+        }
     }
 }
