@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TreeDrop : MonoBehaviour
 {
-    [SerializeField] Dropable ItemToDrop;
+    [SerializeField] Dropable[] ItemsToDrop;
+    [SerializeField] Transform DroppingPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +19,15 @@ public class TreeDrop : MonoBehaviour
         {
             DropItems();
         }
+        DroppingPoint.Rotate(Vector3.up, 0.5f);
     }
     public void DropItems()
     {
-        ItemToDrop.DropMe();
+        foreach (Dropable  item in ItemsToDrop)
+        {
+
+        item.DropMe();
+        }
 
     }
 }
