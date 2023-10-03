@@ -23,17 +23,17 @@ public class GoToEat : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        agent.SetDestination(finalDestination);
         float distance = agent.remainingDistance;
+        agent.SetDestination(finalDestination);
         if (distance <= 0.02f)
         {
             animator.SetBool(IS_EATING, false);
         }
-        if (distance <= agent.stoppingDistance)
-        {
-            animator.SetBool(EATING_STATE, true);
+        //if (distance <= agent.stoppingDistance)
+        //{
+        //    animator.SetBool(EATING_STATE, true);
 
-        }
+        //}
         
     }
 

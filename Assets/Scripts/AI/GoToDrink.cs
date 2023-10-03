@@ -27,12 +27,17 @@ public class GoToDrink : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer += Time.deltaTime;
+        float distance = agent.remainingDistance;
+
         agent.SetDestination(finalDestination);
-        if (agent.remainingDistance <= 0.02f)
+        if (distance <= 0.0002f)
         {
             animator.SetBool(IS_DRINKING, false);
-            animator.SetBool(DRINKING_STATE, true);
         }
+        //if (distance <= agent.stoppingDistance)
+        //{
+        //    animator.SetBool(DRINKING_STATE, true);
+        //}
         
     }
 

@@ -24,7 +24,7 @@ public class WalkRandomState : StateMachineBehaviour
         agent.SetDestination(finalDestination);
         float distance = agent.remainingDistance;
 
-        if (distance <= .2f)
+        if (distance <= .002f)
         {
             animator.SetBool(IS_WALKING, false);
         }

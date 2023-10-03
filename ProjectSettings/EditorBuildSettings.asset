@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Imported Assets/FantasyEnvironments/Environments/Scenes/DemoScene.unity
     guid: 275a29409308e634aa2aae331e6db8ba
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 0813ac72177cdd24b829e0f34a34ad8e
+  - enabled: 1
     path: Assets/Scenes/Forrest.unity
     guid: 928a83a8b3e7fef43be77afbf0882ffb
   m_configObjects:
