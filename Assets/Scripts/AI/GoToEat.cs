@@ -7,10 +7,16 @@ public class GoToEat : StateMachineBehaviour
 {
     private const string IS_EATING = "isEating";
     private const string EATING_STATE = "EatingState";
+    private const string IS_CHASING = "isChasing";
+
+
     private NavMeshAgent agent;
     private List<GameObject> food = new List<GameObject>();
     private Vector3 finalDestination;
-    
+
+    private Transform player;
+    private float chaseDistance = 20;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -18,6 +24,9 @@ public class GoToEat : StateMachineBehaviour
         Vector3 randomFoodPos = food[Random.Range(0, food.Count)].transform.position;
         finalDestination = randomFoodPos;
         agent = animator.GetComponent<NavMeshAgent>();
+
+        player = GameReferences.Instance.GetPlayerRef().transform;
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,12 +38,11 @@ public class GoToEat : StateMachineBehaviour
         {
             animator.SetBool(IS_EATING, false);
         }
-        //if (distance <= agent.stoppingDistance)
-        //{
-        //    animator.SetBool(EATING_STATE, true);
-
-        //}
-        
+        float chacingDistance = Vector3.Distance(animator.transform.position, player.position);
+        if (chacingDistance < chaseDistance)
+        {
+            animator.SetBool(IS_CHASING, true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

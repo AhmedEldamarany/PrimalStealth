@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class IdleState : StateMachineBehaviour
 {
     private float waitingTime = 5f;
+    private const string IS_CHASING = "isChasing";
     private const string IS_WALKING = "isWalking";
     private const string IS_EATING = "isEating";
     private const string IS_DRINKING = "isDrinking";
@@ -14,9 +15,13 @@ public class IdleState : StateMachineBehaviour
     private float timeForDrinking = 30f;
     private string[] playRandomState = { IS_WALKING, IS_EATING, IS_DRINKING };
     private string currentState;
+
+    private Transform player;
+    private float chaseDistance = 20;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        player = GameReferences.Instance.GetPlayerRef().transform;
         timer = 0;
         currentState = playRandomState[Random.Range(0, playRandomState.Length)];
     }
@@ -29,7 +34,11 @@ public class IdleState : StateMachineBehaviour
         {
             animator.SetBool(currentState, true);
         }
-        
+        float distance = Vector3.Distance(animator.transform.position, player.position);
+        if (distance < chaseDistance)
+        {
+            animator.SetBool(IS_CHASING, true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

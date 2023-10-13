@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class DrinkingState : StateMachineBehaviour
 {
+    private const string DRINKING_STATE = "DrinkingState";
+    private const string IS_CHASING = "isChasing";
+
     private float timer;
     private float drinkingTime = 3f;
-    private const string DRINKING_STATE = "DrinkingState";
+
+    private Transform player;
+    private float chaseDistance = 20;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer = 0;
+        player = GameReferences.Instance.GetPlayerRef().transform;
+
     }
 
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,6 +27,11 @@ public class DrinkingState : StateMachineBehaviour
         if (timer >= drinkingTime)
         {
             animator.SetBool(DRINKING_STATE, false);
+        }
+        float chacingDistance = Vector3.Distance(animator.transform.position, player.position);
+        if (chacingDistance < chaseDistance)
+        {
+            animator.SetBool(IS_CHASING, true);
         }
     }
 

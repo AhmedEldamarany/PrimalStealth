@@ -6,13 +6,19 @@ using UnityEngine.AI;
 public class WalkRandomState : StateMachineBehaviour
 {
     private const string IS_WALKING = "isWalking";
+    private const string IS_CHASING = "isChasing";
+
     private NavMeshAgent agent;
     private const float RADUIS = 20F;
     private Vector3 finalDestination;
-    
+
+    private Transform player;
+    private float chaseDistance = 20;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        player = GameReferences.Instance.GetPlayerRef().transform;
         finalDestination = UtilsClass.RandomNavmeshLocation(RADUIS, animator.transform.position);
         agent = animator.GetComponent<NavMeshAgent>();
     }
@@ -28,7 +34,12 @@ public class WalkRandomState : StateMachineBehaviour
         {
             animator.SetBool(IS_WALKING, false);
         }
-        
+        float chacingDistance = Vector3.Distance(animator.transform.position, player.position);
+        if (chacingDistance < chaseDistance)
+        {
+            animator.SetBool(IS_CHASING, true);
+        }
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
